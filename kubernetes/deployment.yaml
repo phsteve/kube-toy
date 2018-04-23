@@ -1,0 +1,27 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: ${target_env}
+spec:
+  replicas: 2
+  revisionHistoryLimit: 3
+  template:
+    metadata:
+      labels:
+        app: ${target_env}
+        environment: beta
+        # OPTIONAL LABELS
+        revision: ${sha}
+        #version: <semver> # for containers running third-party services/packages, ie: kibana
+        #owner: <person or team> # useful if you want to run your own copy of X
+        #language: <language this runs in> # useful for debugging purposes
+    spec:
+      containers:
+      - name: ${target_env}
+        image: skatz/${target_env}:
+        #env:
+        #  - name: ENVIRONMENT
+        #    value: "xxxx"
+      # Needed to pull images from Docker Hub account.
+      #imagePullSecrets:
+      #  - name: "xxxxxxxx"
