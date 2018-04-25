@@ -18,9 +18,7 @@ spec:
     spec:
       containers:
       - name: ${target_env}
-        # why doesn't ${tag} get filled in here?
         image: ${docker_image_name}
-        wat: ${sha}
         #env:
         #  - name: ENVIRONMENT
         #    value: "xxxx"
