@@ -8,6 +8,8 @@ metadata:
 spec:
   ports:
   - port: 80
+    # this should probably be configurable -- flask runs on 5000 by default
+    targetPort: 5000
   selector:
     app: ${target_env}
     environment: beta
