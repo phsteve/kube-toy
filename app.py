@@ -1,10 +1,12 @@
 import flask
+import requests
 
 app = flask.Flask(__name__)
 
 @app.route('/')
 def index():
-    return 'wow it works'
+    response = requests.get('super-service.default.svc.cluster.local/api/some_endpoint').json()
+    return 'wow it works. Response was: {}'.format(response['data'])
 
 @app.route('/healthcheck')
 def index():
