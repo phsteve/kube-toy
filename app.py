@@ -5,7 +5,7 @@ app = flask.Flask(__name__)
 
 @app.route('/')
 def index():
-    response = requests.get('http://super-service.default.svc.cluster.local/api/some_endpoint').json()
+    response = requests.get('http://kube-service/api/some_endpoint').json()
     return 'wow it works. Response was: {}'.format(response['data'])
 
 @app.route('/healthcheck')
