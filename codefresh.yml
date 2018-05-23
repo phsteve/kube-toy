@@ -13,7 +13,15 @@ steps:
     candidate: '${{BuildingDockerImage}}'
     tag: '${{CF_BRANCH_TAG_NORMALIZED}}'
     registry: cfcr
-  Helm Upgrade:
+  HelmPush:
+    working_directory: ./helm/
+    image: 'codefresh/cfstep-helm:2.9.1'
+    environment:
+      - ACTION=push
+      - CHART_NAME=./
+      - RELEASE_NAME=kube-toy
+      - KUBE_CONTEXT=Beta
+  HelmUpgrade:
     working_directory: ./helm/
     image: 'codefresh/cfstep-helm:2.9.1'
     environment:
