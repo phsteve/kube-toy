@@ -25,6 +25,7 @@ steps:
     working_directory: ./helm/kube-toy
     image: 'codefresh/cfstep-helm:2.9.1'
     environment:
+      - CUSTOM_commitHash=${{CF_REVISION}}
       - CHART_NAME=./
       - RELEASE_NAME=kube-toy
       - KUBE_CONTEXT=Beta
