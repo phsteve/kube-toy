@@ -15,6 +15,8 @@ spec:
       release: {{ .Release.Name }}
   template:
     metadata:
+      annotations:
+        checksum/config: {{ .Values.commitHash }}
       labels:
         app: {{ template "kube-toy.name" . }}
         release: {{ .Release.Name }}
