@@ -1,18 +1,53 @@
 apiVersion: apps/v1beta1
 kind: Deployment
 metadata:
-  name: kube-toy
+  name: {{ template "kube-toy.fullname" . }}
+  labels:
+    app: {{ template "kube-toy.name" . }}
+    chart: {{ template "kube-toy.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
 spec:
-  replicas: 1
-  revisionHistoryLimit: 3
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ template "kube-toy.name" . }}
+      release: {{ .Release.Name }}
   template:
     metadata:
       labels:
-        app: kube-toy
-        environment: beta
+        app: {{ template "kube-toy.name" . }}
+        release: {{ .Release.Name }}
     spec:
+      imagePullSecrets:
+        - name: {{ .Values.image.pullSecret }}
       containers:
-        - name: kube-toy
-          image: skatz/kube-toy
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
-            - containerPort: 80
+            - name: http
+              containerPort: 80
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /healthcheck
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /healthcheck
+              port: http
+          resources:
+{{ toYaml .Values.resources | indent 12 }}
+    {{- with .Values.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+{{ toYaml . | indent 8 }}
+    {{- end }}
