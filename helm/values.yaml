@@ -7,7 +7,6 @@ replicaCount: 1
 image:
   repository: r.cfcr.io/teacherspayteachers/phsteve/kube-toy
   tag: master
-  pullPolicy: IfNotPresent
   pullSecret: codefresh-docker-registry
 
 service:
