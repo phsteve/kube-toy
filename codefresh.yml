@@ -13,6 +13,13 @@ steps:
     candidate: '${{BuildingDockerImage}}'
     tag: '${{CF_BRANCH_TAG_NORMALIZED}}'
     registry: cfcr
+  SetHelmChartVersion:
+    image: golang:1.8
+    description: update version in chart yaml
+    commands:
+     - VERSION=$(cat Chart.yaml | grep -m 1 ^version:| awk '{print $2}')
+     - NEW_VERSION="${VERSION}-${{CF_BRANCH_TAG_NORMALIZED}}"
+     - sed -i "s/$VERSION/$NEW_VERSION/g" Chart.yaml
   HelmPush:
     working_directory: ./helm/kube-toy
     image: 'codefresh/cfstep-helm:2.9.1'
