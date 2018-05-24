@@ -16,6 +16,7 @@ steps:
   SetHelmChartVersion:
     image: golang:1.8
     description: update version in chart yaml
+    working_directory: helm/kube-toy/
     commands:
      - VERSION=$(cat Chart.yaml | grep -m 1 ^version:| awk '{print $2}')
      - NEW_VERSION="${VERSION}-${{CF_BRANCH_TAG_NORMALIZED}}"
