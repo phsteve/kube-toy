@@ -5,7 +5,7 @@ app = flask.Flask(__name__)
 
 @app.route('/')
 def index():
-    url = 'http://kube-service/api/some_endpoint'
+    url = 'http://master-chart-kube-service/api/some_endpoint'
     response = requests.get(url).json()
     return 'Hello from pr-toy-1! The response from {url} was: {response}'.format(url=url, response=response['data'])
 
