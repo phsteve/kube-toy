@@ -7,7 +7,7 @@ app = flask.Flask(__name__)
 def index():
     url = 'http://master-chart-kube-service/api/some_endpoint'
     response = requests.get(url).json()
-    return 'Hello from pr-toy-1! The response from {url} was: {response}'.format(url=url, response=response['data'])
+    return 'Hello from updated pr-toy-1! The response from {url} was: {response}'.format(url=url, response=response['data'])
 
 @app.route('/healthcheck')
 def healthcheck():
